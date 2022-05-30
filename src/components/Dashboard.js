@@ -24,7 +24,7 @@ function Dashboard() {
     // console.log("moveRobot", robots[robot.id].location, newLocation);
 
     robots[robot.id].location = newLocation
-    // console.log("newLocation", robots);
+    console.log("newLocation", robots);
     setRobots(robots)
   }
 
