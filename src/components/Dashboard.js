@@ -15,17 +15,17 @@ function Dashboard() {
     const robotsArr = []
     for (var i = 0; i < numRobots; i++) {
       robotsArr.push(new Robot(i, `${type} unit ${i + 1}`, "MaintanceBay"))
-      // console.log("robot", robotsArr);
     }
     setRobots(robotsArr)
   }, [])
 
   function moveRobot(robot, newLocation, robots) {
-    // console.log("moveRobot", robots[robot.id].location, newLocation);
+    let updateRobots = [...robots]
+    let updateRobot = {...updateRobots[robot.id]}
+    updateRobot.location = newLocation
+    updateRobots[robot.id] = updateRobot
+    setRobots(updateRobots)
 
-    robots[robot.id].location = newLocation
-    console.log("newLocation", robots);
-    setRobots(robots)
   }
 
   const RobotCard = (props) => {
@@ -34,17 +34,13 @@ function Dashboard() {
       <div>
         {props.robot.name}
         <button onClick={() => props.moveRobot(props.robot, "Dept1", props.robots)}>Dept 1</button>
-        <button>Dept 2</button>
-        <button>Maint</button>
+        <button onClick={() => props.moveRobot(props.robot, "Dept2", props.robots)}>Dept 2</button>
+        <button onClick={() => props.moveRobot(props.robot, "MaintanceBay", props.robots)}>Maint</button>
       </div>
     )
   }
 
   const MaintanenceBay = (props) => {
-    // function moveToOne(robot) {
-    //
-    //   console.log("move robot", robot);
-    // }
 
     return (
       <div>
@@ -59,27 +55,28 @@ function Dashboard() {
   }
 
   const DepartmentOne = (props) => {
-    // function moveToOne(robot) {
-    //
-    //   console.log("move robot", robot);
-    // }
 
     return (
       <div>
         Department one robot list
         {props.robots.map((robot, idx) => {
           if (robot.location === "Dept1") {
-            return <RobotCard key={robot.name} robot={robot} />
+            return <RobotCard key={robot.name} robot={robot} moveRobot={props.moveRobot} robots={props.robots} />
           }
         })}
       </div>
     )
   }
 
-  const DepartmentTwo = () => {
+  const DepartmentTwo = (props) => {
     return (
       <div>
         Department two robot list
+        {props.robots.map((robot, idx) => {
+          if (robot.location === "Dept2") {
+            return <RobotCard key={robot.name} robot={robot} moveRobot={props.moveRobot} robots={props.robots} />
+          }
+        })}
       </div>
     )
   }
@@ -88,8 +85,8 @@ function Dashboard() {
     <div>
       robot lists
       <MaintanenceBay robots={robots} moveRobot={moveRobot} />
-      <DepartmentOne robots={robots} />
-      <DepartmentTwo robots={robots} />
+      <DepartmentOne robots={robots} moveRobot={moveRobot} />
+      <DepartmentTwo robots={robots} moveRobot={moveRobot} />
     </div>
   )
 }
