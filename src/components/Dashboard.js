@@ -83,6 +83,7 @@ function Dashboard() {
 
   return (
     <div>
+      <h1>Under Construction</h1>
       robot lists
       <MaintanenceBay robots={robots} moveRobot={moveRobot} />
       <DepartmentOne robots={robots} moveRobot={moveRobot} />
